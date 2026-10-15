@@ -40,9 +40,19 @@ header {
     margin: 0 auto;
 }
 
+
+.logo-container {
+    width: auto;
+    display: flex;
+    align-items: center;
+}
+
 .logo-container img {
-    height: 70px;
-    border-radius: 5px; 
+    height: 70px;       /* Mantiene la barra negra de buen tamaño */
+    width: auto;
+    border-radius: 5px;
+    transform: scale(1.6); /* Agranda visualmente el logo un 60% (puedes probar 1.8 o 2.0) */
+    transform-origin: left center; /* Hace que crezca sin salirse por la izquierda */
 }
 
 /* Estilo del botón hamburguesa (Oculto en PC) */
@@ -298,14 +308,7 @@ section {
     }
     /* 👆 HASTA AQUÍ 👆 */
 
-    .logo-container {
-        width: auto;
-    }
-    
-    .logo-container img {
-        height: 50px; 
-    }
-
+ 
     .mobile-menu-btn {
         display: block; /* Muestra el botón de 3 rayitas */
     }
