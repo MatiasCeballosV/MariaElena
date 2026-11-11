@@ -1,0 +1,698 @@
+/* 1. VARIABLES DE DISEÑO ------------------------------------ */
+:root {
+  --color-primary: #5e2427;       /* Burdeos del logo */
+  --color-primary-hover: #7b3439;
+  --color-secondary: #e8c9c9;     /* Rosa pastel */
+  --color-background: #faf3e8;    /* Crema */
+  --color-surface: #fffdf9;       /* Marfil */
+  --color-surface-soft: #f5e7e2;  /* Rosa crema suave */
+  --color-text: #463332;         /* Café oscuro */
+  --color-text-muted: #806465;
+  --color-border: #ddc5bc;
+  --color-white: #ffffff;
+  --color-error: #9b2535;
+
+  --shadow-soft: 0 12px 32px rgb(94 36 39 / 10%);
+  --header-height: 92px;
+  --content-width: 1100px;
+}
+
+/* 2. ESTILOS BASE ------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary-hover);
+  outline-offset: 3px;
+}
+
+/* Evita que los enlaces a secciones queden bajo el header fijo. */
+section[id] {
+  scroll-margin-top: var(--header-height);
+}
+
+section {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  padding: calc(var(--header-height) + 38px) 24px 80px;
+}
+
+/* 3. HEADER Y NAVEGACIÓN ------------------------------------ */
+header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 1000;
+  width: 100%;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 3px 16px rgb(94 36 39 / 6%);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: var(--header-height);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 42px;
+  gap: 20px;
+}
+
+.logo-container {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 70px;
+  width: auto;
+  max-width: 145px;
+  object-fit: contain;
+  /* Compensa el espacio transparente que rodea al logo original. */
+  transform: scale(1.55);
+  transform-origin: left center;
+  margin-right: 28px;
+}
+
+.horario-texto {
+  flex: 1 1 auto;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+}
+
+nav a {
+  display: inline-block;
+  color: var(--color-primary);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--color-primary-hover);
+}
+
+.mobile-menu-btn {
+  display: none;
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  background: transparent;
+  color: var(--color-primary);
+  border: 0;
+  box-shadow: none;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* 4. INICIO / HERO ------------------------------------------ */
+.hero {
+  background: radial-gradient(
+    circle at 35% 40%,
+    var(--color-surface) 0%,
+    var(--color-background) 72%
+  );
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  gap: clamp(28px, 6vw, 70px);
+}
+
+.hero-left,
+.hero-right {
+  min-width: 0;
+}
+
+.hero-img {
+  width: min(100%, 400px);
+  height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-right h1 {
+  color: var(--color-primary);
+  font-size: clamp(3rem, 5vw, 4rem);
+  line-height: 1.08;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.hero-right h1 span {
+  font-weight: 300;
+  font-size: 0.78em;
+}
+
+.subtitle {
+  color: var(--color-primary-hover);
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  margin-bottom: 28px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-instagram {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 7px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  transition: background-color 0.2s ease,
+              color 0.2s ease,
+              transform 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-transform: uppercase;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* 5. CARTA / MENÚ ------------------------------------------- */
+.menu-section {
+  background: var(--color-surface);
+  align-items: flex-start;
+}
+
+.menu-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.section-title {
+  color: var(--color-primary);
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  margin-bottom: 44px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(26px, 5vw, 56px);
+  align-items: start;
+}
+
+.menu-col {
+  min-width: 0;
+}
+
+.category-title {
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+  margin: 28px 0 17px;
+  font-size: 1.12rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.menu-col .category-title:first-child {
+  margin-top: 0;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 11px 0 13px;
+  border-bottom: 1px dotted var(--color-border);
+  color: var(--color-text);
+}
+
+/* Compatible también con el MenuItem antiguo (sin descripción). */
+.menu-item > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Compatible con el MenuItem nuevo (nombre + descripción). */
+.menu-item-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.menu-item-name {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.menu-item-description {
+  margin: 5px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.price {
+  flex: 0 0 auto;
+  max-width: 40%;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: right;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Avisos de carga, error y menú vacío. */
+.menu-container > p {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin: 20px auto;
+}
+
+.menu-container [role="alert"] {
+  color: var(--color-error);
+}
+
+/* 6. SOBRE NOSOTROS ----------------------------------------- */
+.somos-section {
+  background: var(--color-surface-soft);
+}
+
+.somos-container {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.somos-split {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 5vw, 55px);
+}
+
+.somos-text,
+.somos-image {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.somos-text h2 {
+  color: var(--color-primary);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 20px;
+}
+
+.somos-text p {
+  color: var(--color-text);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.img-somos-decor {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease;
+}
+
+.img-somos-decor:hover {
+  transform: scale(1.015);
+}
+
+.btn-secondary {
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  text-transform: uppercase;
+}
+
+.btn-secondary:hover {
+  color: var(--color-white);
+  background: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* 7. CONTACTO ----------------------------------------------- */
+.contacto-section {
+  background: var(--color-background);
+  text-align: center;
+}
+
+.contacto-container {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.contacto-container h2 {
+  color: var(--color-primary);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  margin-bottom: 18px;
+}
+
+.contacto-container p {
+  color: var(--color-text-muted);
+  font-size: 1.05rem;
+}
+
+.btn-instagram {
+  margin-top: 24px;
+  color: var(--color-white);
+  background: var(--color-primary);
+}
+
+.btn-instagram:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* 8. TABLETS ------------------------------------------------ */
+@media (max-width: 1024px) {
+  .header-container {
+    padding-inline: 22px;
+    gap: 14px;
+  }
+
+  nav ul {
+    gap: 15px;
+  }
+
+  nav a {
+    font-size: 12px;
+    letter-spacing: 0.7px;
+  }
+
+  .horario-texto {
+    font-size: 12px;
+  }
+}
+
+/* 9. TELÉFONOS ---------------------------------------------- */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 76px;
+  }
+
+  section {
+    display: block;
+    min-height: auto;
+    padding: calc(var(--header-height) + 36px) 18px 64px;
+  }
+
+  .header-container {
+    min-height: var(--header-height);
+    padding: 5px 16px;
+    gap: 8px;
+  }
+
+  .logo-container img {
+    height: 61px;
+    max-width: 102px;
+    transform: scale(1.35);
+    margin-right: 12px;
+  }
+
+  .horario-texto {
+    font-size: 11px;
+    line-height: 1.35;
+    white-space: normal;
+    padding: 0 5px;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 8px 16px 16px;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+  }
+
+  nav.active {
+    display: block;
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    text-align: center;
+  }
+
+  nav a {
+    display: block;
+    padding: 13px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .hero-container {
+    flex-direction: column;
+    gap: 26px;
+    text-align: center;
+  }
+
+  .hero-img {
+    width: min(80vw, 350px);
+    margin: 0 auto;
+  }
+
+  .hero-right h1 {
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
+  }
+
+  .subtitle {
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+  }
+
+  .section-title {
+    margin-bottom: 32px;
+    font-size: 2rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .category-title {
+    margin-top: 24px;
+    font-size: 1.05rem;
+  }
+
+  .menu-item {
+    gap: 12px;
+  }
+
+  .menu-item-description {
+    font-size: 0.85rem;
+  }
+
+  .somos-split {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .somos-text,
+  .somos-image {
+    width: 100%;
+  }
+
+  .somos-text p {
+    font-size: 1rem;
+  }
+
+  .somos-image {
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  .btn-instagram {
+    max-width: 280px;
+    width: 100%;
+  }
+}
+
+/* 10. TELÉFONOS PEQUEÑOS ------------------------------------ */
+@media (max-width: 390px) {
+  .logo-container img {
+    height: 54px;
+    max-width: 86px;
+    margin-right: 8px;
+  }
+
+  .horario-texto {
+    font-size: 10px;
+  }
+
+  .mobile-menu-btn {
+    font-size: 29px;
+  }
+
+  .menu-item {
+    font-size: 0.92rem;
+  }
+
+  .price {
+    max-width: 36%;
+  }
+}
+
+/* 11. ACCESIBILIDAD ----------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* =====================================
+   BOTÓN FLOTANTE DE WHATSAPP
+===================================== */
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #25D366;
+  color: #FFFFFF;
+
+  border-radius: 50%;
+  font-size: 33px;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.22);
+
+  z-index: 1000;
+
+  text-decoration: none;
+  transition: transform 0.3s ease,
+              background-color 0.3s ease;
+}
+
+.whatsapp-button:hover {
+  background-color: #1EBE5D;
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+.whatsapp-button:focus-visible {
+  outline: 3px solid #5E2427;
+  outline-offset: 4px;
+}
+
+/* Ajuste para celulares */
+@media (max-width: 768px) {
+  .whatsapp-button {
+    width: 55px;
+    height: 55px;
+
+    bottom: 20px;
+    right: 20px;
+
+    font-size: 30px;
+  }
+}

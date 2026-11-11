@@ -1,0 +1,31 @@
+
+function Hero() {
+  return (
+    <section id="inicio" className="hero">
+      <div className="hero-container">
+        <div className="hero-left">
+          <img
+            src="/images/papas.png"
+            alt="Plato especial"
+            className="hero-img"
+          />
+        </div>
+
+        <div className="hero-right">
+          <h1>
+            MARIA<br />
+            <span>ELENA</span>
+          </h1>
+
+          <p className="subtitle">COMIDA CASERA</p>
+
+          <a href="#menu" className="btn-primary">
+            Ver Menú del Día
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Hero;
