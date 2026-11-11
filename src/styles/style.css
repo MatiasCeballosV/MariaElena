@@ -696,3 +696,25 @@ nav a:hover {
     font-size: 30px;
   }
 }
+
+/* =====================================
+   ANIMACIÓN LOGO FLOTANTE
+===================================== */
+@keyframes flotar {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+.logo-flotante {
+  animation: flotar 3s ease-in-out infinite;
+}
+
+.logo-hero {
+  width: 100%;
+  max-width: 350px; /* Cambia este 350px por menos si lo quieres más chico */
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 25px rgba(94, 36, 39, 0.25));
+}
