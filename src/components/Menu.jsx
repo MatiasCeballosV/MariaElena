@@ -35,40 +35,49 @@ function Menu() {
 
         {!cargando && !error && (
           <div className="menu-grid">
+            {/* PRIMERA COLUMNA (Izquierda) */}
             <div className="menu-col">
               <GrupoMenu
-                titulo="Entradas"
-                categoria="Entradas"
+                titulo="Llevar"
+                categoria="Llevar"
                 platos={platos}
               />
 
               <GrupoMenu
-                titulo="Platos Principales"
-                categoria="Platos Principales"
+                titulo="Platos de fondo"
+                categoria="Platos de fondo"
+                platos={platos}
+              />
+
+              <GrupoMenu
+                titulo="Ensaladas"
+                categoria="Ensaladas"
                 platos={platos}
               />
             </div>
 
+            {/* SEGUNDA COLUMNA (Derecha) */}
             <div className="menu-col">
               <GrupoMenu
-                titulo="Acompañamiento"
-                categoria="Acompañamiento"
+                titulo="Parrilla tiempo de preparación 25 minutos aprox.."
+                categoria="Parrilla"
                 platos={platos}
               />
 
               <GrupoMenu
-                titulo="Cafetería"
-                categoria="Cafeteria"
+                titulo="Postres"
+                categoria="Postres"
                 platos={platos}
               />
 
               <GrupoMenu
-                titulo="Pastelería"
-                categoria="Pasteleria"
+                titulo="Colaciones"
+                categoria="Colaciones"
                 platos={platos}
               />
             </div>
           </div>
+        
         )}
       </div>
     </section>
