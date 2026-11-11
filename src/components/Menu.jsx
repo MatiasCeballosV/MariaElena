@@ -23,7 +23,7 @@ function Menu() {
   return (
     <section id="menu" className="menu-section">
       <div className="menu-container">
-        <h2 className="section-title">MENÚ DEL DÍA</h2>
+        <h2 className="section-title">MENÚ</h2>
 
         {cargando && <p>Cargando menú...</p>}
 
