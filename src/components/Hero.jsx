@@ -20,7 +20,7 @@ function Hero() {
           <p className="subtitle">COMIDA CASERA</p>
 
           <a href="#menu" className="btn-primary">
-            Ver Menú del Día
+            Ver Menú
           </a>
         </div>
       </div>
