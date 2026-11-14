@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TABS = [
   { id: "local", label: "En el local", titulo: "Carta en el local" },
-  { id: "llevar", label: "Para llevar", titulo: "Carta para llevar" },
-  { id: "bebestibles", label: "Bebestibles", titulo: "Carta de Bebestibles" }
+  { id: "bebestibles", label: "Bebestibles", titulo: "Carta de Bebestibles" },
+  { id: "llevar", label: "Para llevar", titulo: "Carta para llevar" }
 ];
 
 function CartaSelector() {
@@ -26,7 +26,7 @@ function CartaSelector() {
   const categorias = [...new Set(platos.map((plato) => plato.categoria))];
   const tabActual = TABS.find((t) => t.id === tipo);
 
-  // Efecto de libro 3D al cambiar de carta
+  // Efecto de libro
   const bookPageVariants = {
     enter: (dir) => ({
       rotateY: dir > 0 ? 75 : -75,
@@ -94,7 +94,7 @@ function CartaSelector() {
           })}
         </div>
 
-        {/* (Se eliminó la barra de filtros por categoría que estaba aquí) */}
+        {}
 
         <div className="carta-book-viewport">
           <AnimatePresence mode="wait" custom={direccion}>

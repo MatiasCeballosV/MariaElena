@@ -63,7 +63,7 @@ function Contacto() {
 
             <div className="horario-bloque">
               <span>Horario de atención</span>
-              <strong>Lunes a Sábado • 12:00 a 17:00 hrs</strong>
+              <strong>Lunes a Sábado • 11:00 a 18:00 hrs</strong>
             </div>
 
             <div className="contacto-botones">
@@ -74,14 +74,6 @@ function Contacto() {
                 className="btn-primary"
               >
                 ABRIR RUTA EN GOOGLE MAPS
-              </a>
-              <a
-                href="https://www.instagram.com/maria_elena_restaurante/?hl=es"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary"
-              >
-                INSTAGRAM
               </a>
             </div>
           </div>
