@@ -12,7 +12,7 @@ function Header() {
         </div>
 
         <div className="horario-texto">
-          Horario de Atención 12:00 a 17:00 hrs
+          Horario de Atención 11:00 a 18:00 hrs
         </div>
 
         <button
