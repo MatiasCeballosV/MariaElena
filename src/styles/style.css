@@ -212,26 +212,56 @@ nav a:hover::after { width: 100%; }
 }
 
 /* Escenario con perspectiva de libro para el cambio de página */
-.carta-book-viewport {
-  perspective: 1800px;
-  padding: 8px 4px 32px;
-}
-.carta-hoja-wrapper {
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
+.carta-book-viewport { padding: 8px 4px 32px; }
+
+/* El cuaderno: contiene las hojas y mantiene el espiral fijo */
+.carta-cuaderno {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  perspective: 2200px;
+  isolation: isolate;
 }
 
-/* Hoja de papel de carta con lomo lateral sutil */
-.carta-contenido {
+/* Hojas apiladas debajo (da sensación de cuaderno con varias páginas) */
+.carta-cuaderno::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 6px 14px 14px 6px;
+  background: var(--color-surface);
+  box-shadow: 2px 3px 0 #eadfce, 4px 6px 0 #e0d3c0, 6px 9px 0 #d6c8b4;
+}
+
+/* Espiral 3D (fijo, no gira con la hoja) */
+.carta-cuaderno::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: -14px;
+  width: 64px;
+  z-index: 10;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='30' viewBox='0 0 64 30'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23f4f4f4'/%3E%3Cstop offset='0.35' stop-color='%23b8b8b8'/%3E%3Cstop offset='0.7' stop-color='%23707070'/%3E%3Cstop offset='1' stop-color='%23a0a0a0'/%3E%3C/linearGradient%3E%3CradialGradient id='h' cx='0.5' cy='0.5' r='0.5'%3E%3Cstop offset='0.7' stop-color='%23d9ccbb'/%3E%3Cstop offset='1' stop-color='%23a89a89'/%3E%3C/radialGradient%3E%3Cfilter id='b' x='-20%25' y='-100%25' width='140%25' height='300%25'%3E%3CfeGaussianBlur stdDeviation='1.2'/%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='34' cy='15' r='6.5' fill='url(%23h)'/%3E%3Cellipse cx='24' cy='19.5' rx='22' ry='2.5' fill='rgba(0,0,0,0.28)' filter='url(%23b)'/%3E%3Crect x='1' y='11.5' width='46' height='7' rx='3.5' fill='url(%23m)'/%3E%3Crect x='4' y='12.6' width='38' height='1.3' rx='0.65' fill='white' opacity='0.7'/%3E%3C/svg%3E") repeat-y 0 0 / 64px 30px;
+}
+
+/* La hoja que gira */
+.carta-hoja-wrapper {
   position: relative;
+  will-change: transform, filter;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.carta-contenido {
   background: var(--color-surface);
   border-radius: 6px 14px 14px 6px;
   padding: clamp(28px, 5vw, 54px);
   padding-left: clamp(46px, 7vw, 76px);
   box-shadow: var(--shadow-paper);
   border: 1px solid #ece0d3;
-  max-width: 760px;
-  margin: 0 auto;
 }
 
 /* espiral 3D: hueco en el papel + argolla metálica con brillo y sombra */

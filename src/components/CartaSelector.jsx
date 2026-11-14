@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMenu } from "../hooks/useMenu.js";
 import MenuItem from "./MenuItem.jsx";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const TABS = [
   { id: "local", label: "En el local", titulo: "Carta en el local" },
@@ -9,9 +9,47 @@ const TABS = [
   { id: "llevar", label: "Para llevar", titulo: "Carta para llevar" }
 ];
 
+const DURACION = 0.85;
+const CURVA = [0.65, 0, 0.35, 1];
+const ZINSTANT = { duration: 0 };
+
+// Pasar la hoja sobre el espiral (bisagra en el borde izquierdo)
+const variantesPagina = {
+  enter: (dir) =>
+    dir > 0
+      ? { rotateY: 0, filter: "brightness(0.88)", zIndex: 1 } // queda debajo, se revela
+      : { rotateY: -180, filter: "brightness(0.8)", zIndex: 3 }, // vuelve por encima
+  center: {
+    rotateY: 0,
+    filter: "brightness(1)",
+    transition: { duration: DURACION, ease: CURVA }
+  },
+  exit: (dir) =>
+    dir > 0
+      ? {
+          rotateY: -180,
+          filter: "brightness(0.8)",
+          zIndex: 3,
+          transition: { duration: DURACION, ease: CURVA, zIndex: ZINSTANT }
+        }
+      : {
+          filter: "brightness(0.88)",
+          zIndex: 1,
+          transition: { duration: DURACION, ease: CURVA, zIndex: ZINSTANT }
+        }
+};
+
+// Para personas con "reducir movimiento" activado en su equipo
+const variantesSuave = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.15 } }
+};
+
 function CartaSelector() {
   const [tipo, setTipo] = useState("local");
   const [direccion, setDireccion] = useState(1);
+  const reducirMovimiento = useReducedMotion();
 
   const { platos, cargando, error } = useMenu(tipo);
 
@@ -25,41 +63,7 @@ function CartaSelector() {
 
   const categorias = [...new Set(platos.map((plato) => plato.categoria))];
   const tabActual = TABS.find((t) => t.id === tipo);
-
-  // Efecto de libro
-  const bookPageVariants = {
-    enter: (dir) => ({
-      rotateY: dir > 0 ? 75 : -75,
-      x: dir > 0 ? 60 : -60,
-      scale: 0.96,
-      opacity: 0,
-      transformOrigin: dir > 0 ? "left center" : "right center"
-    }),
-    center: {
-      rotateY: 0,
-      x: 0,
-      scale: 1,
-      opacity: 1,
-      transformOrigin: "center center",
-      transition: {
-        type: "spring",
-        stiffness: 150,
-        damping: 22,
-        mass: 0.9
-      }
-    },
-    exit: (dir) => ({
-      rotateY: dir > 0 ? -75 : 75,
-      x: dir > 0 ? -60 : 60,
-      scale: 0.96,
-      opacity: 0,
-      transformOrigin: dir > 0 ? "left center" : "right center",
-      transition: {
-        duration: 0.28,
-        ease: [0.4, 0, 0.2, 1]
-      }
-    })
-  };
+  const variantes = reducirMovimiento ? variantesSuave : variantesPagina;
 
   return (
     <section id="menu" className="cartas-section">
@@ -94,78 +98,79 @@ function CartaSelector() {
           })}
         </div>
 
-        {}
-
         <div className="carta-book-viewport">
-          <AnimatePresence mode="wait" custom={direccion}>
-            <motion.div
-              key={tipo}
-              custom={direccion}
-              variants={bookPageVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="carta-hoja-wrapper"
-            >
-              {cargando && <p className="cartas-mensaje">Cargando carta...</p>}
+          <div className="carta-cuaderno">
+            <AnimatePresence mode="popLayout" custom={direccion} initial={false}>
+              <motion.div
+                key={tipo}
+                custom={direccion}
+                variants={variantes}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                className="carta-hoja-wrapper"
+                style={{ transformOrigin: "left center" }}
+              >
+                {cargando && <p className="cartas-mensaje">Cargando carta...</p>}
 
-              {error && (
-                <p className="cartas-mensaje" role="alert">
-                  {error}
-                </p>
-              )}
-
-              {!cargando && !error && platos.length === 0 && (
-                <div className="carta-contenido carta-vacia">
-                  <p className="cartas-mensaje">
-                    Próximamente nuevos productos en esta carta.
+                {error && (
+                  <p className="cartas-mensaje" role="alert">
+                    {error}
                   </p>
-                </div>
-              )}
+                )}
 
-              {!cargando && !error && platos.length > 0 && (
-                <div className="carta-contenido">
-                  <div className="carta-encabezado-interno">
-                    <span className="carta-sello">RESTAURANT MARÍA ELENA</span>
-                    <h3 className="carta-titulo">{tabActual?.titulo}</h3>
+                {!cargando && !error && platos.length === 0 && (
+                  <div className="carta-contenido carta-vacia">
+                    <p className="cartas-mensaje">
+                      Próximamente nuevos productos en esta carta.
+                    </p>
                   </div>
+                )}
 
-                  {categorias.map((categoria) => {
-                    const catLower = categoria.toLowerCase();
-                    const esParrilla = catLower.includes("parrilla");
-                    const esPlatosDeFondo = catLower.includes("platos de fondo");
+                {!cargando && !error && platos.length > 0 && (
+                  <div className="carta-contenido">
+                    <div className="carta-encabezado-interno">
+                      <span className="carta-sello">RESTAURANT MARÍA ELENA</span>
+                      <h3 className="carta-titulo">{tabActual?.titulo}</h3>
+                    </div>
 
-                    return (
-                      <div key={categoria} className="carta-categoria">
-                        <div className="category-header">
-                          <h4 className="category-title">{categoria}</h4>
-                          {(esParrilla || esPlatosDeFondo) && (
-                            <span className="category-note">
-                              * Parrilla: preparación 25 min aprox.
-                            </span>
+                    {categorias.map((categoria) => {
+                      const catLower = categoria.toLowerCase();
+                      const esParrilla = catLower.includes("parrilla");
+                      const esPlatosDeFondo = catLower.includes("platos de fondo");
+
+                      return (
+                        <div key={categoria} className="carta-categoria">
+                          <div className="category-header">
+                            <h4 className="category-title">{categoria}</h4>
+                            {(esParrilla || esPlatosDeFondo) && (
+                              <span className="category-note">
+                                * Parrilla: preparación 25 min aprox.
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="platos-lista">
+                            {platos
+                              .filter((plato) => plato.categoria === categoria)
+                              .map((plato) => (
+                                <MenuItem key={plato.id} plato={plato} />
+                              ))}
+                          </div>
+
+                          {esParrilla && (
+                            <p className="agregados-linea">
+                              <strong>Agregados:</strong> Ensalada fresca, Pastelera de choclo, Arroz, Verduras al horno, Cremoso de mote, Puré de papa natural o Papas (fritas, doradas, provenzal, cocidas y mayo).
+                            </p>
                           )}
                         </div>
-
-                        <div className="platos-lista">
-                          {platos
-                            .filter((plato) => plato.categoria === categoria)
-                            .map((plato) => (
-                              <MenuItem key={plato.id} plato={plato} />
-                            ))}
-                        </div>
-
-                        {esParrilla && (
-                          <p className="agregados-linea">
-                            <strong>Agregados:</strong> Ensalada fresca, Pastelera de choclo, Arroz, Verduras al horno, Cremoso de mote, Puré de papa natural o Papas (fritas, doradas, provenzal, cocidas y mayo).
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+                      );
+                    })}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>
